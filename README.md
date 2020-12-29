@@ -12,7 +12,7 @@ You can access the table where all the objects are stored as well.
 
 Code example:
 ```Lua
-loadstring(game:HttpGetAsync(""))() -- place in the beginning of your script
+loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Jonathann-0/Drawing-Wrapper/main/main.lua"))() -- place in the beginning of your script
 
 local line = Drawing.new("Line")
 line.Visible = true
