@@ -6,8 +6,12 @@ Drawing = setmetatable(Drawing, {
     __index = function(self, i)
         if i == 'Clear' then
             return function()
-                for _, shape in pairs(self.__CONTAINER) do
-                    shape:Remove()
+                for i, shape in pairs(self.__CONTAINER) do
+                    if shape.__OBJECT_EXISTS == true then
+                        shape:Remove()
+                    else
+                        table.remove(self.__CONTAINER, i)
+                    end
                 end
                 if self.Length > 0 then
                     self:Clear()
