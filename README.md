@@ -35,3 +35,4 @@ line:Destroy()
 line:Delete()
 -- All work and are not case sensitive!
 ```
+> If you find any bugs or get errors please reach out to me on discord! **Jonathann#6916**
