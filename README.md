@@ -23,8 +23,12 @@ line.Thickness = 2
 line.Transparency = 1
 line.From = Vector2.new(300, 300);
 line.To = Vector2.new(300, 200);
+line:Set('Name', 'The Line With A Name')
 
 print(Drawing.Length) -- > 1
+if line:Has('Name') then
+  print(line.Name) -- > The Line With A Name
+end
 wait(1)
 Drawing:Clear()
 print(Drawing.Length) -- > 0
