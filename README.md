@@ -1,10 +1,12 @@
 # Drawing-Wrapper
 **Synapse X**'s Drawing Library currently does not manage the objects created.
-This script wraps the Drawing table, and stores a reference to every draw object created.
+This script wraps the Drawing table, and stores a reference to every draw object created. It should help make working with the drawing library more convenient.
 
 #### What I Added
 - `Drawing.Length`  - Returns how many drawing objects you created.
 - `Drawing.Clear()` - Destroys all of the drawing objects you created.
+- `Line:Set(<variant> key, <variant> value)` - Used to set a property to the object for later use.
+- `Line:Has(<variant> key)` - Checks if there is a property on the object.
 
 You can access the table where all the objects are stored as well.
 
