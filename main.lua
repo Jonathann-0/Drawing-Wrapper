@@ -4,7 +4,7 @@ end
 
 Drawing = setmetatable(Drawing, {
     __index = function(self, i)
-        if i == 'Clear' then
+        if i:lower() == 'clear' then
             return function()
                 for i, shape in pairs(self.__CONTAINER) do
                     if shape.__OBJECT_EXISTS == true then
@@ -18,7 +18,7 @@ Drawing = setmetatable(Drawing, {
                 end
                 return self;
             end
-        elseif i == 'Length' then
+        elseif i:lower() == 'length' then
             return #self.__CONTAINER
         end
         return nil
@@ -39,6 +39,20 @@ metadata.__index = function(self, i)
             table.remove(Drawing.__CONTAINER, index)
         end
         i = 'Remove'
+    elseif i:lower() == 'set' then
+        return function(s, key, value)
+            if s ~= self then
+                return error("You called method 'set' incorrectly.")
+            end
+            return rawset(self, key, value)
+        end
+    elseif i:lower() == 'has' then
+        return function(s, key)
+            if s ~= self then
+                return error("You called method 'has' incorrectly.")
+            end
+            return not (rawget(self, key) == nil)
+        end
     end
     return oldIndex(self, i)
 end
