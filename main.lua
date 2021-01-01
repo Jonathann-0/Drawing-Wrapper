@@ -27,39 +27,54 @@ Drawing = setmetatable(Drawing, {
 
 Drawing.__CONTAINER = {}
 
-local pseudoLine = Drawing.new("Line")
-local metadata = getmetatable(pseudoLine)
-local oldIndex = metadata.__index
-pseudoLine:Remove()
+local pseudo = {
+    line = Drawing.new("Line"),
+    text = Drawing.new("Text"),
+    image = Drawing.new("Image"),
+    circle = Drawing.new("Circle"),
+    square = Drawing.new("Square"),
+    quad = Drawing.new("Quad"),
+    triangle = Drawing.new("Triangle")
+}
 
-metadata.__index = function(self, i)
-    if i:lower() == 'remove' or i:lower() == 'delete' or i:lower() == 'destroy' then
-        local index = table.find(Drawing.__CONTAINER, self)
-        if index ~= nil then
-            table.remove(Drawing.__CONTAINER, index)
-        end
-        i = 'Remove'
-    elseif i:lower() == 'set' then
-        return function(s, key, value)
-            if s ~= self then
-                return error("You called method 'set' incorrectly.")
+for a, object in pairs(pseudo) do
+    local metadata = getmetatable(object)
+    local oldIndex = metadata.__index
+
+    metadata.__index = function(self, i)
+        if i:lower() == 'remove' or i:lower() == 'delete' or i:lower() == 'destroy' then
+            local index = table.find(Drawing.__CONTAINER, self)
+            if index ~= nil then
+                table.remove(Drawing.__CONTAINER, index)
             end
-            return rawset(self, key, value)
-        end
-    elseif i:lower() == 'has' then
-        return function(s, key)
-            if s ~= self then
-                return error("You called method 'has' incorrectly.")
+            i = 'Remove'
+        elseif i:lower() == 'set' then
+            return function(s, key, value)
+                if s ~= self then
+                    return error("You called method 'set' incorrectly.")
+                end
+                return rawset(self, key, value)
             end
-            return not (rawget(self, key) == nil)
+        elseif i:lower() == 'has' then
+            return function(s, key)
+                if s ~= self then
+                    return error("You called method 'has' incorrectly.")
+                end
+                return not (rawget(self, key) == nil)
+            end
         end
+        return oldIndex(self, i)
     end
-    return oldIndex(self, i)
+    object:Remove()
 end
+
 
 local func;
 func = hookfunction(Drawing.new, function(str)
     local shape = func(str);
+    if shape then
+        shape:set('Type', str);
+    end
     table.insert(Drawing.__CONTAINER, shape)
     return shape
 end)
